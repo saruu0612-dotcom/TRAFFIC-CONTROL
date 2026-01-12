@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Traffic Map | Pune Traffic Control</title>
+    <meta name="description" content="Real-time traffic map of Pune city">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/secure-module.css">
+    <link rel="stylesheet" href="styles/searchable-select.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+            border-radius: 0.5rem;
+            z-index: 1;
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-marker-icon {
+            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.3));
+        }
+
+        .pulse-marker {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="sidebar-overlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                </div>
+                <div class="sidebar-title">
+                    <h1>Pune Traffic</h1>
+                    <span>Control System</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Main Menu</span>
+                    <a href="index.html" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="traffic.html" class="nav-item active">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        <span>Live Map</span>
+                    </a>
+                    <a href="reports.html" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-section-title">System</span>
+                    <a href="settings.html" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                    <a href="login.html" class="nav-item" onclick="localStorage.clear();">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar">TO</div>
+                    <div class="user-info">
+                        <div class="user-name">Traffic Officer</div>
+                        <div class="user-role">Pune Division</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="page-title">Live Traffic Map</h1>
+                        <div class="breadcrumb">
+                            <a href="index.html">Dashboard</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Live Map</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search for location..." autocomplete="off">
+                        <div class="search-dropdown" id="searchDropdown"></div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="header-btn" onclick="showNotification('3 new traffic alerts', 'info')">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                            </svg>
+                            <span class="notification-badge"></span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Interactive Map Section -->
+                <div class="card mb-6">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Live Traffic Monitoring</h3>
+                            <p class="card-subtitle">Real-time camera feeds and incident tracking</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="map-controls">
+                                <span class="badge badge-success">● Live</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" onclick="TrafficMap.toggleSatellite()">
+                                🛰 Satellite
+                            </button>
+                            <button class="btn btn-primary btn-sm" onclick="TrafficMap.resetToHome()">
+                                ⌂ Reset View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 0; position: relative;">
+                        <!-- Leaflet Map Container -->
+                        <div id="map"></div>
+                    </div>
+                </div>
+
+                <!-- Area Cards Grid -->
+                <div class="grid grid-cols-4 mb-6">
+                    <div class="location-card" onclick="showNotification('Viewing Hinjewadi details', 'info')">
+                        <div class="location-status danger"></div>
+                        <div class="location-info">
+                            <h4>Hinjewadi IT Park</h4>
+                            <p>12,567 vehicles</p>
+                            <span class="badge badge-danger">Congested</span>
+                        </div>
+                    </div>
+                    <div class="location-card" onclick="showNotification('Viewing Kothrud details', 'info')">
+                        <div class="location-status warning"></div>
+                        <div class="location-info">
+                            <h4>Kothrud</h4>
+                            <p>8,234 vehicles</p>
+                            <span class="badge badge-warning">Heavy</span>
+                        </div>
+                    </div>
+                    <div class="location-card" onclick="showNotification('Viewing Viman Nagar details', 'info')">
+                        <div class="location-status success"></div>
+                        <div class="location-info">
+                            <h4>Viman Nagar</h4>
+                            <p>4,123 vehicles</p>
+                            <span class="badge badge-success">Normal</span>
+                        </div>
+                    </div>
+                    <div class="location-card" onclick="showNotification('Viewing Hadapsar details', 'info')">
+                        <div class="location-status danger"></div>
+                        <div class="location-info">
+                            <h4>Hadapsar</h4>
+                            <p>15,890 vehicles</p>
+                            <span class="badge badge-danger">Congested</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traffic Data Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">All Monitoring Zones</h3>
+                            <p class="card-subtitle">Detailed traffic data from Pune sensors</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="showExportModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export Data
+                        </button>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Zone ID</th>
+                                        <th>Location</th>
+                                        <th>Vehicle Count</th>
+                                        <th>Avg Speed</th>
+                                        <th>Status</th>
+                                        <th>Last Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>PNE-001</strong></td>
+                                        <td>Hinjewadi Phase 1 - IT Hub</td>
+                                        <td>12,567</td>
+                                        <td>18 km/h</td>
+                                        <td><span class="badge badge-danger">Congested</span></td>
+                                        <td>30 sec ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PNE-002</strong></td>
+                                        <td>FC Road - Ferguson College</td>
+                                        <td>6,789</td>
+                                        <td>25 km/h</td>
+                                        <td><span class="badge badge-warning">Heavy</span></td>
+                                        <td>1 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PNE-003</strong></td>
+                                        <td>JM Road - Deccan Gymkhana</td>
+                                        <td>5,432</td>
+                                        <td>30 km/h</td>
+                                        <td><span class="badge badge-primary">Moderate</span></td>
+                                        <td>45 sec ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PNE-004</strong></td>
+                                        <td>Koregaon Park - Lane 6</td>
+                                        <td>3,456</td>
+                                        <td>35 km/h</td>
+                                        <td><span class="badge badge-success">Normal</span></td>
+                                        <td>2 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PNE-005</strong></td>
+                                        <td>Magarpatta City - Main Road</td>
+                                        <td>8,901</td>
+                                        <td>22 km/h</td>
+                                        <td><span class="badge badge-warning">Heavy</span></td>
+                                        <td>1 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PNE-006</strong></td>
+                                        <td>Aundh - Bremen Chowk</td>
+                                        <td>4,567</td>
+                                        <td>32 km/h</td>
+                                        <td><span class="badge badge-success">Normal</span></td>
+                                        <td>3 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PNE-007</strong></td>
+                                        <td>Wakad - Hinjewadi Road</td>
+                                        <td>9,876</td>
+                                        <td>20 km/h</td>
+                                        <td><span class="badge badge-danger">Congested</span></td>
+                                        <td>40 sec ago</td>
+                                    </tr>
+                                    <!-- Rows will be populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">Showing 1 to 7 of 847 monitoring zones</span>
+                            <div class="pagination-controls">
+                                <!-- JS will populate this -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </main>
+    </div>
+
+    <!-- Secure Camera Module Modals -->
+
+    <!-- 1. Biometric Authentication Modal -->
+    <div class="secure-modal-backdrop" id="biometricModal">
+        <div class="secure-modal">
+            <div class="bio-icon-container" onclick="SecureModule.startScan()">
+                <div class="scan-line"></div>
+                <svg class="bio-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                    <path
+                        d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-8 8s3.58 8 8 8c3.04 0 5.79-1.68 7.17-4.18"
+                        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+            </div>
+            <h3 class="modal-title">Biometric Authentication</h3>
+            <p class="modal-subtitle">Authorized Access Only. Click fingerprint to scan.</p>
+            <p id="bioStatus" style="height: 1.5rem; font-weight: 500;">Place finger or face camera to scan</p>
+            <button class="btn btn-sm btn-ghost close-secure-modal" style="margin-top: 1rem;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- 2. Location Selection Hierarchy -->
+    <div class="secure-modal-backdrop" id="locationModal">
+        <div class="secure-modal">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                <h3 class="modal-title">Select Camera Feed</h3>
+                <button class="close-btn close-secure-modal">&times;</button>
+            </div>
+
+            <div class="location-select-group">
+                <div class="form-group">
+                    <label class="form-label">State / UT (Level 1)</label>
+                    <div id="secureStateSelect"></div> <!-- Custom Dropdown Container -->
+                </div>
+                <div class="form-group">
+                    <label class="form-label">City (Level 2)</label>
+                    <div id="secureCitySelect"></div> <!-- Custom Dropdown Container -->
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Town / Area (Level 3)</label>
+                    <div id="secureAreaSelect"></div> <!-- Custom Dropdown Container -->
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; margin-top: 2rem; padding: 1rem;"
+                onclick="SecureModule.launchFeed()">
+                Access Live Feed
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. Live Camera Feed Interface -->
+    <div class="secure-modal-backdrop" id="cameraFeedModal">
+        <div class="secure-modal camera-modal">
+            <div class="camera-header">
+                <div class="camera-info">
+                    <h3 id="feedAreaName">Area Name</h3>
+                    <p id="feedId">ID: CAM-0000</p>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div class="rec-indicator disabled-rec">
+                        <div class="rec-dot"></div> REC
+                    </div>
+                    <button class="close-btn close-secure-modal" onclick="SecureModule.closeModal('cameraFeedModal')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="camera-feed-container" id="secureFeedContent">
+                <img src="https://images.unsplash.com/photo-1566373733058-293675f2849e?q=80&w=1600&auto=format&fit=crop"
+                    class="placeholder-feed" alt="Live Feed">
+
+                <div class="live-overlay">
+                    <span
+                        style="background: red; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.75rem;">LIVE</span>
+                    <span style="color: white; font-weight: 500; font-size: 0.75rem;">1080p | 30fps</span>
+                </div>
+
+                <div class="timestamp-overlay" id="feedTimestamp">00:00:00</div>
+
+                <div class="alert-overlay" id="feedAlert">
+                    ⚠ ALERT
+                </div>
+            </div>
+
+            <!-- New: No Signal / Not Installed State -->
+            <div class="camera-feed-container" id="noSignalContent"
+                style="display: none; flex-direction: column; background: #111; color: #6B7280;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    style="margin-bottom: 1rem; opacity: 0.5;">
+                    <path d="M1 1l22 22"></path>
+                    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+                    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+                    <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+                    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+                    <path d="M8.53 3.53A16.11 16.11 0 0 1 12 3.15"></path>
+                    <path d="M23 1l-22 22"></path>
+                </svg>
+                <h3 style="color: #E5E7EB; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">Camera Not
+                    Installed</h3>
+                <p>Live feed is not available for this location yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/video-library.js"></script>
+    <script src="js/secure-cameras.js"></script>
+    <script src="js/location-service.js"></script> <!-- Re-using location service for search -->
+    <script src="js/searchable-select.js"></script>
+    <script src="js/traffic-map.js"></script>
+    <script src="js/traffic-data-manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

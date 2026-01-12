@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | Pune Traffic Control</title>
+    <meta name="description" content="Traffic analytics and reports for Pune city">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="sidebar-overlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                </div>
+                <div class="sidebar-title">
+                    <h1>Pune Traffic</h1>
+                    <span>Control System</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Main Menu</span>
+                    <a href="index.html" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="traffic.html" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        <span>Live Map</span>
+                    </a>
+                    <a href="reports.html" class="nav-item active">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-section-title">System</span>
+                    <a href="settings.html" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                    <a href="login.html" class="nav-item" onclick="localStorage.clear();">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar">TO</div>
+                    <div class="user-info">
+                        <div class="user-name">Traffic Officer</div>
+                        <div class="user-role">Pune Division</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="page-title">Traffic Analytics</h1>
+                        <div class="breadcrumb">
+                            <a href="index.html">Dashboard</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Analytics</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="date-filter-container" style="margin-right: 1rem;">
+                        <input type="month" id="monthFilter" class="form-control" value="2024-01"
+                            style="width: auto; height: 40px;">
+                    </div>
+                    <div class="current-time" id="currentTime">09:41:22 am</div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary btn-sm"
+                            onclick="showNotification('Generating PDF report...', 'info')">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Export PDF
+                        </button>
+                        <button class="btn btn-primary btn-sm"
+                            onclick="showNotification('Report generated successfully!', 'success')">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Generate Report
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Statistics Summary -->
+                <div class="grid grid-cols-4 mb-6">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">45.2M</span>
+                            <span class="stat-label">Total Vehicles (Month)</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">94.7%</span>
+                            <span class="stat-label">Signal Uptime</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">3.2 min</span>
+                            <span class="stat-label">Avg Wait Time</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">156</span>
+                            <span class="stat-label">Incidents (Month)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-2 mb-6">
+                    <!-- Hourly Traffic Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Hourly Traffic Flow</h3>
+                                <p class="card-subtitle">Today's vehicle count by hour</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="bar-chart">
+                                <div class="bar-chart-container">
+                                    <div class="bar" style="--height: 30%;" data-value="4.2K"><span>6AM</span></div>
+                                    <div class="bar" style="--height: 55%;" data-value="8.1K"><span>8AM</span></div>
+                                    <div class="bar peak" style="--height: 95%;" data-value="14.2K"><span>9AM</span>
+                                    </div>
+                                    <div class="bar" style="--height: 70%;" data-value="10.5K"><span>10AM</span></div>
+                                    <div class="bar" style="--height: 50%;" data-value="7.5K"><span>12PM</span></div>
+                                    <div class="bar" style="--height: 45%;" data-value="6.8K"><span>2PM</span></div>
+                                    <div class="bar" style="--height: 60%;" data-value="9.0K"><span>4PM</span></div>
+                                    <div class="bar peak" style="--height: 90%;" data-value="13.5K"><span>6PM</span>
+                                    </div>
+                                    <div class="bar" style="--height: 75%;" data-value="11.2K"><span>7PM</span></div>
+                                    <div class="bar" style="--height: 40%;" data-value="6.0K"><span>9PM</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Trend Line Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Weekly Traffic Trend</h3>
+                                <p class="card-subtitle">Last 7 days comparison</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="line-chart">
+                                <svg viewBox="0 0 400 200" class="line-chart-svg">
+                                    <!-- Grid Lines -->
+                                    <g class="grid-lines" stroke="#E2E8F0" stroke-width="1">
+                                        <line x1="40" y1="30" x2="380" y2="30" />
+                                        <line x1="40" y1="70" x2="380" y2="70" />
+                                        <line x1="40" y1="110" x2="380" y2="110" />
+                                        <line x1="40" y1="150" x2="380" y2="150" />
+                                    </g>
+
+                                    <!-- Y-axis labels -->
+                                    <g class="y-labels" fill="#718096" font-size="10">
+                                        <text x="35" y="33" text-anchor="end">150K</text>
+                                        <text x="35" y="73" text-anchor="end">120K</text>
+                                        <text x="35" y="113" text-anchor="end">90K</text>
+                                        <text x="35" y="153" text-anchor="end">60K</text>
+                                    </g>
+
+                                    <!-- Line Chart Path -->
+                                    <path d="M60,80 L110,65 L160,90 L210,50 L260,70 L310,45 L360,55" fill="none"
+                                        stroke="#5CB8A8" stroke-width="3" stroke-linecap="round" />
+
+                                    <!-- Area under line -->
+                                    <path d="M60,80 L110,65 L160,90 L210,50 L260,70 L310,45 L360,55 L360,170 L60,170 Z"
+                                        fill="url(#areaGradient)" opacity="0.3" />
+
+                                    <!-- Data Points -->
+                                    <g class="data-points">
+                                        <circle cx="60" cy="80" r="5" fill="#5CB8A8" />
+                                        <circle cx="110" cy="65" r="5" fill="#5CB8A8" />
+                                        <circle cx="160" cy="90" r="5" fill="#5CB8A8" />
+                                        <circle cx="210" cy="50" r="5" fill="#5CB8A8" />
+                                        <circle cx="260" cy="70" r="5" fill="#5CB8A8" />
+                                        <circle cx="310" cy="45" r="5" fill="#5CB8A8" />
+                                        <circle cx="360" cy="55" r="5" fill="#5CB8A8" />
+                                    </g>
+
+                                    <!-- X-axis labels -->
+                                    <g class="x-labels" fill="#718096" font-size="10">
+                                        <text x="60" y="185" text-anchor="middle">Mon</text>
+                                        <text x="110" y="185" text-anchor="middle">Tue</text>
+                                        <text x="160" y="185" text-anchor="middle">Wed</text>
+                                        <text x="210" y="185" text-anchor="middle">Thu</text>
+                                        <text x="260" y="185" text-anchor="middle">Fri</text>
+                                        <text x="310" y="185" text-anchor="middle">Sat</text>
+                                        <text x="360" y="185" text-anchor="middle">Sun</text>
+                                    </g>
+
+                                    <defs>
+                                        <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#5CB8A8;stop-opacity:0.4" />
+                                            <stop offset="100%" style="stop-color:#5CB8A8;stop-opacity:0" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Type Distribution & Top Locations -->
+                <div class="grid grid-cols-2 mb-6">
+                    <!-- Vehicle Type Pie -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Vehicle Type Distribution</h3>
+                                <p class="card-subtitle">Breakdown by vehicle category</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="donut-chart-container">
+                                <svg class="donut-chart" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="35" fill="none" stroke="#6BB3D9" stroke-width="12"
+                                        stroke-dasharray="66 154" stroke-dashoffset="0" />
+                                    <circle cx="50" cy="50" r="35" fill="none" stroke="#5CB8A8" stroke-width="12"
+                                        stroke-dasharray="44 154" stroke-dashoffset="-66" />
+                                    <circle cx="50" cy="50" r="35" fill="none" stroke="#FFA726" stroke-width="12"
+                                        stroke-dasharray="33 154" stroke-dashoffset="-110" />
+                                    <circle cx="50" cy="50" r="35" fill="none" stroke="#EF5350" stroke-width="12"
+                                        stroke-dasharray="11 154" stroke-dashoffset="-143" />
+                                    <circle cx="50" cy="50" r="22" fill="white" />
+                                </svg>
+                                <div class="donut-legend">
+                                    <div class="legend-row">
+                                        <span class="legend-dot" style="background:#6BB3D9"></span>
+                                        <span>Two-wheelers (45%)</span>
+                                    </div>
+                                    <div class="legend-row">
+                                        <span class="legend-dot" style="background:#5CB8A8"></span>
+                                        <span>Cars (30%)</span>
+                                    </div>
+                                    <div class="legend-row">
+                                        <span class="legend-dot" style="background:#FFA726"></span>
+                                        <span>Commercial (18%)</span>
+                                    </div>
+                                    <div class="legend-row">
+                                        <span class="legend-dot" style="background:#EF5350"></span>
+                                        <span>Heavy Vehicles (7%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Congested Locations -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Top Congested Areas</h3>
+                                <p class="card-subtitle">Locations with highest traffic</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress-list">
+                                <div class="progress-item">
+                                    <div class="progress-header">
+                                        <span>Hinjewadi IT Park</span>
+                                        <span>92%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill danger" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-header">
+                                        <span>Chandni Chowk</span>
+                                        <span>85%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill danger" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-header">
+                                        <span>Pune Station</span>
+                                        <span>78%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-header">
+                                        <span>Swargate</span>
+                                        <span>72%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill warning" style="width: 72%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-header">
+                                        <span>Katraj</span>
+                                        <span>65%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill primary" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Report Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Monthly Traffic Report - Pune</h3>
+                            <p class="card-subtitle">January 2024 zone-wise summary</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <select class="filter-select"
+                                onchange="showNotification('Filter applied: ' + this.value, 'info')">
+                                <option>January 2024</option>
+                                <option>December 2023</option>
+                                <option>November 2023</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Zone</th>
+                                        <th>Total Vehicles</th>
+                                        <th>Peak Hours</th>
+                                        <th>Incidents</th>
+                                        <th>Avg Speed</th>
+                                        <th>Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Hinjewadi</strong></td>
+                                        <td>4.2M</td>
+                                        <td>9AM, 6PM</td>
+                                        <td>23</td>
+                                        <td>22 km/h</td>
+                                        <td><span class="trend-up">↑ 12%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Kothrud</strong></td>
+                                        <td>3.8M</td>
+                                        <td>8AM, 7PM</td>
+                                        <td>18</td>
+                                        <td>25 km/h</td>
+                                        <td><span class="trend-up">↑ 8%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hadapsar</strong></td>
+                                        <td>3.5M</td>
+                                        <td>9AM, 6PM</td>
+                                        <td>21</td>
+                                        <td>20 km/h</td>
+                                        <td><span class="trend-up">↑ 15%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Shivaji Nagar</strong></td>
+                                        <td>2.9M</td>
+                                        <td>10AM, 5PM</td>
+                                        <td>12</td>
+                                        <td>28 km/h</td>
+                                        <td><span class="trend-down">↓ 3%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Viman Nagar</strong></td>
+                                        <td>2.1M</td>
+                                        <td>8AM, 8PM</td>
+                                        <td>8</td>
+                                        <td>32 km/h</td>
+                                        <td><span class="trend-stable">→ 0%</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/traffic-data-manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
