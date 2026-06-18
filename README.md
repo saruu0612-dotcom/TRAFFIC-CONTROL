@@ -1,5 +1,5 @@
-TRAFFIC-CONTROL (ATC)
-TRAFFIC-CONTROL is an advanced traffic analytics and monitoring platform designed to manage high-density urban transit. By leveraging real-time data visualization and predictive modeling, the system helps traffic officers optimize flow across major metropolitan hubs like Hinjewadi IT Park and Pune Central.
+ANTIGRAVITY-TRAFFIC-CONTROL (ATC)
+ANTIGRAVITY-TRAFFIC-CONTROL is an advanced traffic analytics and monitoring platform designed to manage high-density urban transit. By leveraging real-time data visualization and predictive modeling, the system helps traffic officers optimize flow across major metropolitan hubs like Hinjewadi IT Park and Pune Central.
 
 📊 Dashboard Overview
 The system provides a comprehensive suite of analytics to monitor urban mobility:
